@@ -49,12 +49,15 @@ def main():
             # Actualizar nuestro tablero de disparos
             tablero_jugador.marcar_disparo_propio(fila, col, impacto)
 
-            if impacto:
+            if isinstance(impacto, str) and impacto.startswith("Hundido"):
+                print(f"\n  🔥 ¡HUNDIDO en {coord_texto}! ¡Vuelves a disparar!")
+                turno_jugador = True
+            elif impacto:
                 print(f"\n  💥 ¡IMPACTO en {coord_texto}! ¡Vuelves a disparar!")
-                turno_jugador = True  # Si acierta, repite turno
+                turno_jugador = True
             else:
                 print(f"\n  💧 Agua en {coord_texto}. Turno de la máquina.")
-                turno_jugador = False  # Si falla, pasa el turno
+                turno_jugador = False
 
             # Comprobar si el jugador ha ganado
             if not tablero_maquina.tiene_barcos():
@@ -71,53 +74,31 @@ def main():
             print("  🤖 TURNO DE LA MÁQUINA")
             print("=" * 50)
 
-        fila, col = disparo_maquina(tablero_maquina.tablero_disparos) # La máquina elige dónde disparar
-        coord_texto = coordenadas_a_texto(fila, col)
-        print(f"  La máquina dispara a {coord_texto}...")
+            fila, col = disparo_maquina(tablero_maquina.tablero_disparos) # La máquina elige dónde disparar
+            coord_texto = coordenadas_a_texto(fila, col)
+            print(f"  La máquina dispara a {coord_texto}...")
 
-        resultado = tablero_jugador.recibir_disparo(fila, col)
-        tablero_maquina.marcar_disparo_propio(fila, col, resultado)
+            resultado = tablero_jugador.recibir_disparo(fila, col)
+            tablero_maquina.marcar_disparo_propio(fila, col, resultado)
 
-        if isinstance(resultado, str) and resultado.startswith("Hundido"):
-            print(f"  💥 ¡La máquina ha hundido un barco en {coord_texto}! Repite turno.")
-            turno_jugador = False
+            if isinstance(resultado, str) and resultado.startswith("Hundido"):
+                print(f"  💥 ¡La máquina ha hundido un barco en {coord_texto}! Repite turno.")
+                turno_jugador = False
         
-        elif resultado:
-            print(f"  💥 ¡La máquina ha impactado en {coord_texto}! Repite turno.")
-            turno_jugador = False
+            elif resultado:
+                print(f"  💥 ¡La máquina ha impactado en {coord_texto}! Repite turno.")
+                turno_jugador = False
         
-        else:
-            print(f"  💧 La máquina ha fallado en {coord_texto}.")
-            turno_jugador = True
+            else:
+                print(f"  💧 La máquina ha fallado en {coord_texto}.")
+                turno_jugador = True
 
-        if not tablero_jugador.tiene_barcos():
-            print("\n" + "💀" * 20)
-            print("  La máquina ha ganado. ¡Mejor suerte la próxima vez!")
-            print("💀" * 20)
-            break
+            if not tablero_jugador.tiene_barcos():
+                print("\n" + "💀" * 20)
+                print("  La máquina ha ganado. ¡Mejor suerte la próxima vez!")
+                print("💀" * 20)
+                break
             
-            
-    # Actualizar el tablero de disparos de la máquina
-            
-        tablero_maquina.marcar_disparo_propio(fila, col, impacto)
-
-        if impacto:
-            print(f"  💥 ¡La máquina ha impactado en {coord_texto}! Repite turno.")
-            turno_jugador = False  # La máquina repite si acierta
-        
-        else:
-            print(f"  💧 La máquina ha fallado en {coord_texto}.")
-            turno_jugador = True  # Si falla, pasa el turno
-
-        # Comprobar si la máquina ha ganado
-            
-        if not tablero_jugador.tiene_barcos():
-            print("\n" + "💀" * 20)
-            print("  La máquina ha ganado. ¡Mejor suerte la próxima vez!")
-            print("💀" * 20)
-            break
-
-
 # Punto de entrada del programa
 if __name__ == '__main__':
     main()

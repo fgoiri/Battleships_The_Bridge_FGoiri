@@ -67,7 +67,6 @@ class Tablero:
                     self.coordenadas_barcos.append((f, c))
                 self.barcos.append(casillas) # Guardamos las coordenadas de cada barco para saber cuándo se hunden
                 colocado = True
-        print(self.barcos) # DEBUG: mostrar coordenadas de los barcos colocados
 
     def _calcular_casillas(self, fila, col, eslora, orientacion):
         """
@@ -108,7 +107,7 @@ class Tablero:
             if self.tablero_propio[f][c] != AGUA:
                 return False
         return True
-
+    
     # ------------------------------------------
     # DISPARO: comprobar si hay impacto
     # ------------------------------------------
