@@ -94,4 +94,3 @@ def mostrar_bienvenida():
     print("  - Si aciertas, vuelves a disparar")
     print("  - Gana quien hunda todos los barcos enemigos")
     print()
-console.log(self.barcos) # DEBUG: mostrar coordenadas de los barcos colocados
