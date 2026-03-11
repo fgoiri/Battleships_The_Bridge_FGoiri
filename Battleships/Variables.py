@@ -10,10 +10,10 @@ COLUMNAS = 10
 LETRAS_COLUMNAS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 # Lo que se muestra en el tablero:
-AGUA = '~'           # Casilla vacía (no disparada)
+AGUA = '.'           # Casilla vacía (no disparada)
 BARCO = 'O'          # Barco (solo visible en tu propio tablero)
 IMPACTO = 'X'        # Disparo que ha dado en un barco
-AGUA_DISPARADA = '-' # Disparo que ha caído al agua
+AGUA_DISPARADA = '~' # Disparo que ha caído al agua
 
 # Diccionario con los barcos y su eslora (número de casillas que ocupa)
 # Nombre del barco -> eslora

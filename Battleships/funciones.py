@@ -2,7 +2,7 @@
 #  Funciones extras para el juego
 # ==========================================
 
-import random
+import random, sys
 from Variables import LETRAS_COLUMNAS, FILAS, AGUA, IMPACTO, AGUA_DISPARADA
 
 
@@ -17,7 +17,10 @@ def pedir_coordenadas(tablero_disparos):
     Devuelve (fila, columna) como índices numéricos.
     """
     while True:
-        entrada = input("  ¿Dónde disparas? (ej: A5): ").strip().upper()
+        entrada = input("Introduce coordenadas para disparar (ej: A5) o escribe 'salir': ").strip().upper()
+        if entrada == 'SALIR':
+            print('\n👋 Gracias por jugar. ¡Hasta la próxima!')
+            raise SystemExit
 
         # Comprobar formato mínimo: al menos 2 caracteres
         if len(entrada) < 2:
