@@ -2,7 +2,7 @@
 #  Funciones extras para el juego
 # ==========================================
 
-import random, sys
+import random
 from Variables import LETRAS_COLUMNAS, FILAS, AGUA, IMPACTO, AGUA_DISPARADA
 
 
@@ -20,7 +20,7 @@ def pedir_coordenadas(tablero_disparos):
         entrada = input("Introduce coordenadas para disparar (ej: A5) o escribe 'salir': ").strip().upper()
         if entrada == 'SALIR':
             print('\n👋 Gracias por jugar. ¡Hasta la próxima!')
-            raise SystemExit
+            return None # Indica que el jugador quiere salir
 
         # Comprobar formato mínimo: al menos 2 caracteres
         if len(entrada) < 2:
@@ -94,3 +94,4 @@ def mostrar_bienvenida():
     print("  - Si aciertas, vuelves a disparar")
     print("  - Gana quien hunda todos los barcos enemigos")
     print()
+console.log(self.barcos) # DEBUG: mostrar coordenadas de los barcos colocados

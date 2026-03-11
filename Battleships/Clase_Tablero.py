@@ -29,7 +29,9 @@ class Tablero:
 
         # Lista de coordenadas donde hay barcos (para comprobar impactos)
         # Ejemplo: [(0,0), (0,1), (3,5), ...]
+        # Lista de barcos con sus coordenadas para saber cuándo se hunden
         self.coordenadas_barcos = []
+        self.barcos = []
 
         # Colocar los barcos al inicializar
         self.inicializar_tablero()
@@ -63,7 +65,9 @@ class Tablero:
                 for (f, c) in casillas:
                     self.tablero_propio[f][c] = BARCO
                     self.coordenadas_barcos.append((f, c))
+                self.barcos.append(casillas) # Guardamos las coordenadas de cada barco para saber cuándo se hunden
                 colocado = True
+        print(self.barcos) # DEBUG: mostrar coordenadas de los barcos colocados
 
     def _calcular_casillas(self, fila, col, eslora, orientacion):
         """
@@ -114,10 +118,27 @@ class Tablero:
         Comprueba si el disparo en (fila, col) impacta en un barco.
         Actualiza el tablero_propio con IMPACTO o AGUA_DISPARADA.
         Devuelve True si hay impacto, False si es agua.
+        Además comprueba si el barco se ha hundido y devuelve "Hundido X casillas" si es el caso.
         """
+        
         if (fila, col) in self.coordenadas_barcos:
             self.tablero_propio[fila][col] = IMPACTO
+            
+            # comprobar si el barco se ha hundido
+            for barco in self.barcos:
+                if (fila, col) in barco:
+                    hundido = True
+
+                    for f, c in barco:
+                        if self.tablero_propio[f][c] != IMPACTO:
+                            hundido = False
+                            break
+
+                    if hundido:
+                        return "Hundido " + str(len(barco)) + " casillas"
+
             return True  # ¡Impacto!
+    
         else:
             self.tablero_propio[fila][col] = AGUA_DISPARADA
             return False  # Agua
@@ -169,5 +190,4 @@ class Tablero:
         for i, fila in enumerate(matriz):
             numero = str(i + 1).rjust(2)  # "1", "2"... " 1", " 2" (alineado)
             print(f" {numero}| " + "  ".join(fila))
-
-
+            
