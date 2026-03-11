@@ -1,0 +1,101 @@
+# ==========================================
+# MAIN Programa principal
+# ==========================================
+
+from Clase_Tablero import Tablero
+from funciones import (pedir_coordenadas, disparo_maquina,
+                       coordenadas_a_texto, mostrar_bienvenida)
+
+
+def main():
+    # --- BIENVENIDA ---
+    mostrar_bienvenida()
+
+    # --- INICIALIZAR TABLEROS ---
+    # Creamos un tablero para el jugador y otro para la máquina
+    # Al crear el tablero, los barcos se colocan automáticamente
+    tablero_jugador = Tablero('Jugador')
+    tablero_maquina = Tablero('Máquina')
+
+    print("¡Los barcos han sido colocados! ¡Que empiece la batalla!\n")
+
+    # --- BUCLE PRINCIPAL DEL JUEGO ---
+    turno_jugador = True  # El jugador empieza primero
+
+    while True:
+
+        # ==================
+        # TURNO DEL JUGADOR
+        # ==================
+        if turno_jugador:
+            print("\n" + "=" * 50)
+            print("  🎯 TU TURNO")
+            print("=" * 50)
+
+            # Mostrar tablero propio (con tus barcos) y tus disparos
+            tablero_jugador.imprimir_tablero_propio()
+            tablero_jugador.imprimir_tablero_disparos()
+
+            # Pedir coordenadas al jugador
+            fila, col = pedir_coordenadas(tablero_jugador.tablero_disparos)
+            coord_texto = coordenadas_a_texto(fila, col)
+
+            # Comprobar si hay impacto en el tablero de la máquina
+            impacto = tablero_maquina.recibir_disparo(fila, col)
+
+            # Actualizar nuestro tablero de disparos
+            tablero_jugador.marcar_disparo_propio(fila, col, impacto)
+
+            if impacto:
+                print(f"\n  💥 ¡IMPACTO en {coord_texto}! ¡Vuelves a disparar!")
+                turno_jugador = True  # Si acierta, repite turno
+            else:
+                print(f"\n  💧 Agua en {coord_texto}. Turno de la máquina.")
+                turno_jugador = False  # Si falla, pasa el turno
+
+            # Comprobar si el jugador ha ganado
+            if not tablero_maquina.tiene_barcos():
+                print("\n" + "🏆" * 20)
+                print("  ¡¡¡ENHORABUENA!!! ¡Has ganado!")
+                print("🏆" * 20)
+                break
+
+        # ==================
+        # TURNO DE LA MÁQUINA
+        # ==================
+        else:
+            print("\n" + "=" * 50)
+            print("  🤖 TURNO DE LA MÁQUINA")
+            print("=" * 50)
+
+            # La máquina elige coordenadas aleatorias donde no haya disparado antes
+            # Usamos tablero_jugador.tablero_propio para ver dónde no ha disparado aún
+            fila, col = disparo_maquina(tablero_jugador.tablero_propio)
+            coord_texto = coordenadas_a_texto(fila, col)
+
+            print(f"  La máquina dispara a {coord_texto}...")
+
+            # Comprobar si hay impacto en el tablero del jugador
+            impacto = tablero_jugador.recibir_disparo(fila, col)
+
+            # Actualizar el tablero de disparos de la máquina
+            tablero_maquina.marcar_disparo_propio(fila, col, impacto)
+
+            if impacto:
+                print(f"  💥 ¡La máquina ha impactado en {coord_texto}! Repite turno.")
+                turno_jugador = False  # La máquina repite si acierta
+            else:
+                print(f"  💧 La máquina ha fallado en {coord_texto}.")
+                turno_jugador = True  # Si falla, pasa el turno
+
+            # Comprobar si la máquina ha ganado
+            if not tablero_jugador.tiene_barcos():
+                print("\n" + "💀" * 20)
+                print("  La máquina ha ganado. ¡Mejor suerte la próxima vez!")
+                print("💀" * 20)
+                break
+
+
+# Punto de entrada del programa
+if __name__ == '__main__':
+    main()
