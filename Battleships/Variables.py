@@ -7,7 +7,7 @@ FILAS = 10
 COLUMNAS = 10
 
 # Letras para las columnas (como en el juego real: A, B, C...)
-LETRAS_COLUMNAS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+LETRAS_COLUMNAS = [' A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 # Lo que se muestra en el tablero:
 AGUA = '.'           # Casilla vacía (no disparada)
