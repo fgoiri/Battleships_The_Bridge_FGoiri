@@ -1,4 +1,4 @@
-import random
+import random, time
 from Variables import (FILAS, COLUMNAS, LETRAS_COLUMNAS,
                        AGUA, BARCO, IMPACTO, AGUA_DISPARADA,
                        BARCOS, ORIENTACIONES)
@@ -189,4 +189,5 @@ class Tablero:
         for i, fila in enumerate(matriz):
             numero = str(i + 1).rjust(2)  # "1", "2"... " 1", " 2" (alineado)
             print(f" {numero}| " + "  ".join(fila))
+            time.sleep(0.1)
             
